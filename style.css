@@ -2,7 +2,7 @@
     position: absolute;
     width: 100%;
     height: 100vh;
-    background-image: url("img/11_background.png");
+    background-image: url("img/blue.jpg");
     background-size: cover;
 }
 
@@ -12,7 +12,6 @@
     height: 100vh;
     background-image: url("img/10_distant_clouds.png");
     background-size: cover;
-    background-position-x: 0px;
 }
 
 #layer-2 {
@@ -56,4 +55,24 @@
     background-image: url("img/01_ground.png");
     background-size: cover;
     background-position: bottom;
+}
+
+#layer-test {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-image: url("img/aquatic_plants01.png");
+    background-position: bottom;
+    background-repeat: repeat-x;
+}
+
+#layer-player {
+    bottom: 30px;
+    position: absolute;
+    left: calc(50%);
+    height: 200px;
+    width: 200px;
+    background-image: url("img/idle.gif");
+    background-size: contain;
+    background-repeat: no-repeat;
 }

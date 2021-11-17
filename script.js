@@ -1,4 +1,4 @@
-//global variables: group by function
+//global variables: grouped by function
 let keys = [];
 let tic = 60;
 let position = [0, 0]; //x and y axis
@@ -9,7 +9,10 @@ let layers = [
     document.getElementById("layer-3"),
     document.getElementById("layer-4"),
     document.getElementById("layer-5"),
-    document.getElementById("layer-6")]
+    document.getElementById("layer-6"),
+    document.getElementById("layer-test"),
+    document.getElementById("layer-player")
+    ]
 
 
 //add key
@@ -35,18 +38,25 @@ function game () {
     updatePosition();
 }
 
-
 function updatePosition() {
     if (keys.includes("ArrowRight")) {
         position[0] -= 1;
+        layers[7].style.backgroundImage = "url(\"img/run.gif\")";
+        layers[7].style.transform = "scaleX(1)";
     }
     if (keys.includes("ArrowLeft")) {
         position[0] += 1;
+        layers[7].style.backgroundImage = "url(\"img/run.gif\")";
+        layers[7].style.transform = "scaleX(-1)";
     }
+    if (keys.length === 0) {
+        layers[7].style.backgroundImage = "url(\"img/idle.gif\")"
+    }
+    //if (keys)
 
     for (let i = 0; i < layers.length; i++) {
-        layers[i].style.backgroundPositionX = position[0] * (i* speedMultiplier) + "px";
-        console.log(layers[i].style.backgroundPositionX);
+        layers[i].style.backgroundPositionX = position[0] * ((i+1)* speedMultiplier) + "px";
+        // console.log(layers[i].style.backgroundPositionX);
     }
 }
 
