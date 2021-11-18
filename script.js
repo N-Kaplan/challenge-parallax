@@ -5,7 +5,7 @@ const tic = 60;
 let position = [0, 0]; //x and y axis??
 let speedMultiplier = 4;
 const vh = Math.min(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-let fishHeight = 200;
+let birdHeight = 200;
 let direction = 'right';
 
 let layers = [
@@ -19,13 +19,13 @@ let layers = [
     ];
 
 //main player object
-// class Fish {
+// class bird {
 //     constructor(x, y) {
 //         this.x = x;
 //         this.y = y;
 //     }
 // }
-// const fish = new Fish(0,0);
+// const bird = new bird(0,0);
 
 //add key
 document.addEventListener("keydown", function (event) {
@@ -49,25 +49,25 @@ function game () {
     updatePosition();
 }
 
-function swimUp () {
-    let fishPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
-    let fishPositionY = parseFloat(fishPositionYFull.slice(0, fishPositionYFull.length-2));
-    if (fishPositionY < vh - fishHeight) {
+function flyUp () {
+    let birdPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
+    let birdPositionY = parseFloat(birdPositionYFull.slice(0, birdPositionYFull.length-2));
+    if (birdPositionY < vh - birdHeight) {
         layers[layers.length - 1].style.transform = direction === 'right'? "rotate(-45deg)" : "scaleX(-1) rotate(-45deg)";
-        layers[layers.length - 1].style.bottom = fishPositionY + 10 +"px";
+        layers[layers.length - 1].style.bottom = birdPositionY + 10 +"px";
     } else {
         layers[layers.length - 1].style.transform = "rotate(0deg)";
     }
 }
 
-function swimDown () {
-    let fishPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
-    let fishPositionY = parseFloat(fishPositionYFull.slice(0, fishPositionYFull.length-2));
-    if (fishPositionY > 0) {
-        // console.log(fishPositionY);
-        // console.log(fishHeight);
+function flyDown () {
+    let birdPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
+    let birdPositionY = parseFloat(birdPositionYFull.slice(0, birdPositionYFull.length-2));
+    if (birdPositionY > 0) {
+        // console.log(birdPositionY);
+        // console.log(birdHeight);
         layers[layers.length - 1].style.transform = direction === 'right'? "rotate(45deg)" : "scaleX(-1) rotate(45deg)";
-        layers[layers.length - 1].style.bottom = fishPositionY - 10 +"px";
+        layers[layers.length - 1].style.bottom = birdPositionY - 10 +"px";
     } else {
         layers[layers.length - 1].style.transform = "rotate(0deg)";
     }
@@ -78,25 +78,25 @@ function swimDown () {
 function updatePosition() {
     if (keys.includes("ArrowRight")) {
         position[0] -= 1;
-        // layers[layers.length -1].style.backgroundImage = "url(\"img/SWIM_TO_RIGHT.gif\")";
+        // layers[layers.length -1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
         layers[layers.length -1].style.transform = "scaleX(1)";
         direction = 'right';
     }
     if (keys.includes("ArrowLeft")) {
         position[0] += 1;
-        //layers[layers.length -1].style.backgroundImage = "url(\"img/SWIM_TO_RIGHT.gif\")";
+        //layers[layers.length -1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
         layers[layers.length -1].style.transform = "scaleX(-1)";
         direction = 'left';
     }
     if (keys.includes("ArrowUp")) {
         //position[1] += 1;
-        // layers[layers.length - 1].style.backgroundImage = "url(\"img/SWIM_TO_RIGHT.gif\")";
-        swimUp();
+        // layers[layers.length - 1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
+        flyUp();
     }
     if (keys.includes("ArrowDown")) {
         //position[1] += 1;
-        // layers[layers.length - 1].style.backgroundImage = "url(\"img/SWIM_TO_RIGHT.gif\")";
-        swimDown(direction);
+        // layers[layers.length - 1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
+        flyDown(direction);
     }
 
     // if (keys.length === 0) {
