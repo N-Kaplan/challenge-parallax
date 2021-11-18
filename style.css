@@ -55,6 +55,7 @@
     background-image: url("img/01_ground.png");
     background-size: cover;
     background-position: bottom;
+    filter: hue-rotate(140deg);
 }
 
 #layer-test {
@@ -67,12 +68,13 @@
 }
 
 #layer-player {
-    bottom: 30px;
     position: absolute;
-    left: calc(50%);
+    bottom: calc(50% - 100px);
+    left: calc(50% - 100px);
     height: 200px;
     width: 200px;
-    background-image: url("img/idle.gif");
-    background-size: contain;
+    background-image: url("img/SWIM_TO_RIGHT.gif");
+    filter:hue-rotate(210deg);
+    background-size: cover;
     background-repeat: no-repeat;
 }
