@@ -1,31 +1,29 @@
+//todo: why doesn't rotation work any more?
 //global variables: grouped by function
 //todo: refactor!
 let keys = [];
 const tic = 60;
 let position = [0, 0]; //x and y axis??
-let speedMultiplier = 4;
+let hits = 0;
+const speedMultiplier = 4;
 const vh = Math.min(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-let birdHeight = 100;
+const beeHeight = 100;
 let direction = 'right';
 
-let layers = [
-    document.getElementById("layer-1"),
-    document.getElementById("layer-2"),
-    document.getElementById("layer-3"),
-    document.getElementById("layer-4"),
-    document.getElementById("layer-5"),
-    document.getElementById("layer-6"),
-    document.getElementById("layer-player")
-    ];
+const start = document.getElementById('button')
+
+const layers = document.getElementsByClassName('layer');
+const bee = layers[layers.length-1];
 
 //main player object
-// class bird {
+// class bee {
 //     constructor(x, y) {
 //         this.x = x;
 //         this.y = y;
 //     }
 // }
-// const bird = new bird(0,0);
+// const bee = new bee(0,0);
+
 
 //add key
 document.addEventListener("keydown", function (event) {
@@ -45,8 +43,14 @@ document.addEventListener("keyup", function (event) {
 
 //recursive function
 function game () {
-    setTimeout(game, tic);
-    updatePosition();
+    if (hits > 3) {
+
+    } else {
+        start.removeEventListener('click', game);
+        setTimeout(game, tic);
+        updatePosition();
+    }
+
 }
 
 function fly (direction) {
@@ -63,37 +67,42 @@ function fly (direction) {
 }
 
 function flyUp () {
-    let birdPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
-    let birdPositionY = parseFloat(birdPositionYFull.slice(0, birdPositionYFull.length-2));
-    if (birdPositionY < vh - birdHeight) {
-        layers[layers.length - 1].style.transform = direction === 'right'? "rotate(-45deg)" : "scaleX(-1) rotate(-45deg)";
-        layers[layers.length - 1].style.bottom = birdPositionY + 10 +"px";
+    let beePositionYFull = window.getComputedStyle(bee).bottom;
+    let beePositionY = parseFloat(beePositionYFull.slice(0, beePositionYFull.length-2));
+    if (beePositionY < vh - beeHeight) {
+        bee.style.transform = direction === 'right'? "rotate(-45deg)" : "scaleX(-1) rotate(-45deg)";
+        console.log(bee.style.transform);
+        bee.style.bottom = beePositionY + 10 +"px";
     } else {
-        layers[layers.length - 1].style.transform = "rotate(0deg)";
+        //todo: bounce
+        bee.style.transform = "rotate(0deg)";
     }
 }
 
 function flyDown () {
-    let birdPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
-    let birdPositionY = parseFloat(birdPositionYFull.slice(0, birdPositionYFull.length-2));
-    if (birdPositionY > 0) {
-        // console.log(birdPositionY);
-        // console.log(birdHeight);
-        layers[layers.length - 1].style.transform = direction === 'right'? "rotate(45deg)" : "scaleX(-1) rotate(45deg)";
-        layers[layers.length - 1].style.bottom = birdPositionY - 10 +"px";
+    let beePositionYFull = window.getComputedStyle(bee).bottom;
+    let beePositionY = parseFloat(beePositionYFull.slice(0, beePositionYFull.length-2)); //remove "px"
+    if (beePositionY > 0) {
+        // console.log(beePositionY);
+        // console.log(beeHeight);
+        bee.style.transform = direction === 'right'? "rotate(45deg)" : "scaleX(-1) rotate(45deg)";
+        bee.style.bottom = beePositionY - 10 +"px";
     } else {
-        layers[layers.length - 1].style.transform = "rotate(0deg)";
+        //todo: bounce
+        console.log(beePositionY);
+        console.log(beeHeight);
+        bee.classList.add('bounce');
+        hits += 1;
+        bee.style.transform = "rotate(0deg)";
     }
 }
 
 function updatePosition() {
     if (keys.includes("ArrowRight") || direction === "right") {
         direction = 'right';
-        fly(direction);
     }
     if (keys.includes("ArrowLeft") || direction === "left") {
         direction = 'left';
-        fly(direction);
     }
     if (keys.includes("ArrowUp")) {
         flyUp();
@@ -105,7 +114,7 @@ function updatePosition() {
     if (keys.includes(" ")) {
         //todo: decide action later
     }
-
+    fly(direction);
     //last layer is the player, who doesn't need a change in backgroundPositionX (or he'd disappear off screen)
     for (let i = 0; i < layers.length -1 ; i++) {
         layers[i].style.backgroundPositionX = `${position[0] * ((i+1)* speedMultiplier)}px`;
@@ -113,4 +122,4 @@ function updatePosition() {
     }
 }
 
-game();
+start.addEventListener('click', game);
