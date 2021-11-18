@@ -5,7 +5,7 @@ const tic = 60;
 let position = [0, 0]; //x and y axis??
 let speedMultiplier = 4;
 const vh = Math.min(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-let birdHeight = 200;
+let birdHeight = 100;
 let direction = 'right';
 
 let layers = [
@@ -49,6 +49,19 @@ function game () {
     updatePosition();
 }
 
+function fly (direction) {
+    switch (direction) {
+        case 'right':
+            position[0] -= 1;
+            layers[layers.length -1].style.transform = "scaleX(1)";
+            break;
+        case 'left':
+            position[0] += 1;
+            layers[layers.length -1].style.transform = "scaleX(-1)";
+            break;
+    }
+}
+
 function flyUp () {
     let birdPositionYFull = window.getComputedStyle(layers[layers.length-1]).bottom;
     let birdPositionY = parseFloat(birdPositionYFull.slice(0, birdPositionYFull.length-2));
@@ -73,35 +86,22 @@ function flyDown () {
     }
 }
 
-
-
 function updatePosition() {
-    if (keys.includes("ArrowRight")) {
-        position[0] -= 1;
-        // layers[layers.length -1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
-        layers[layers.length -1].style.transform = "scaleX(1)";
+    if (keys.includes("ArrowRight") || direction === "right") {
         direction = 'right';
+        fly(direction);
     }
-    if (keys.includes("ArrowLeft")) {
-        position[0] += 1;
-        //layers[layers.length -1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
-        layers[layers.length -1].style.transform = "scaleX(-1)";
+    if (keys.includes("ArrowLeft") || direction === "left") {
         direction = 'left';
+        fly(direction);
     }
     if (keys.includes("ArrowUp")) {
-        //position[1] += 1;
-        // layers[layers.length - 1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
         flyUp();
     }
     if (keys.includes("ArrowDown")) {
-        //position[1] += 1;
-        // layers[layers.length - 1].style.backgroundImage = "url(\"img/fly_TO_RIGHT.gif\")";
         flyDown(direction);
     }
 
-    // if (keys.length === 0) {
-    //     layers[layers.length -1].style.backgroundImage = "url(\"img/REST_TO_RIGHT.gif\")";
-    // }
     if (keys.includes(" ")) {
         //todo: decide action later
     }
