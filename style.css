@@ -80,6 +80,7 @@ body {
     background-image: url("img/lotus_6133.png");
     background-size: contain;
     background-repeat: no-repeat;
+    animation: rotation 3s linear infinite;
 }
 
 #layer-bee {
@@ -97,6 +98,13 @@ body {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
+/*#outer-bee {*/
+/*    -webkit-animation-duration: 1s;*/
+/*    animation-duration: 1s;*/
+/*    -webkit-animation-fill-mode: both;*/
+/*    animation-fill-mode: both;*/
+/*}*/
 
 @-webkit-keyframes bounce-up {
     0%, 5%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
@@ -131,4 +139,13 @@ body {
 .bounce-down {
     -webkit-animation-name: bounce-down;
     animation-name: bounce-down;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
 }

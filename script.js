@@ -4,7 +4,7 @@
 // todo: pick flowers
 
 let keys = [];
-const tic = 60;
+const tic = 50;
 let position = [0]; //x and y axis??
 const speedMultiplier = 4;
 const vh = Math.min(document.documentElement.clientHeight || 0, window.innerHeight || 0);
@@ -41,8 +41,6 @@ function game () {
     updatePosition();
     if (!keys.includes(' ')) {
         setTimeout(game, tic);
-        console.log(flower.layer);
-
     }
     else if (keys.length > 0) {
         document.addEventListener('keydown', game);
@@ -96,7 +94,6 @@ function flyDown () {
         bee.layer.style.bottom = beePositionY - 10 +"px";
     } else {
         bounce(true);
-
     }
 }
 
@@ -112,10 +109,7 @@ function updatePosition() {
         flyUp();
     }
     if (keys.includes("ArrowDown")) {
-        flyDown(bee.direction);
-    }
-    if (flower.layer) {
-        flower.layer.style.backgroundPositionX = `${position[0] * ((layers.length-1) * speedMultiplier)}px`;
+        flyDown();
     }
 
     //all but the first background layers move with increasing speed
@@ -130,6 +124,26 @@ function createFlower() {
     flowerLayer.appendChild(newFlower);
 }
 
-createFlower();
+function generateFlower() {
+    createFlower();
+}
+
+//thanks to Sven's generous help, not there yet
+function moveFlowers() {
+    let flowers = flowerLayer.getElementsByClassName('flower');
+    for (let i = 0; i < flowers.length; i++) {
+        let flowerX = flowers[i].offsetLeft;
+        if (flowerX < -(window.innerWidth + flowers[i].offsetWidth)) {
+            flowerLayer.removeChild(flowers[i]);
+        } else {
+            flowerX += speedMultiplier;
+            flowers[i].style.left = flowerX + "px";
+        }
+    }
+}
+
+
+//setInterval(generateFlower, Math.floor(Math.random()* 5000) + 5000);
+
 document.addEventListener('keydown', game);
 
