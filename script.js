@@ -1,20 +1,24 @@
+
 //todo: refactor!
 //todo:adjust bounce
 // todo: pick flowers
 
 let keys = [];
 const tic = 60;
-let position = [0, 0]; //x and y axis??
+let position = [0]; //x and y axis??
 const speedMultiplier = 4;
 const vh = Math.min(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
 const layers = document.getElementsByClassName('bg-layer');
+const flowerLayer = document.getElementById('layer-flower');
 
 const bee = {
     direction: "right",
     height: 100,
     layer: document.getElementById('layer-bee')
 }
+
+const flower = {}
 
 //add key
 document.addEventListener("keydown", function (event) {
@@ -37,6 +41,8 @@ function game () {
     updatePosition();
     if (!keys.includes(' ')) {
         setTimeout(game, tic);
+        console.log(flower.layer);
+
     }
     else if (keys.length > 0) {
         document.addEventListener('keydown', game);
@@ -56,11 +62,19 @@ function fly (direction) {
     }
 }
 
-function bounce () {
-    bee.layer.classList.add('bounce');
-    setTimeout(function (){
-        bee.layer.classList.remove('bounce')
-    }, 1500)
+function bounce (up) {
+    if (up) {
+        bee.layer.classList.add('bounce-up');
+        setTimeout(function (){
+            bee.layer.classList.remove('bounce-up')
+        }, 1500)
+    } else {
+        bee.layer.classList.add('bounce-down');
+        setTimeout(function (){
+            bee.layer.classList.remove('bounce-down')
+        }, 1500)
+    }
+
 }
 
 function flyUp () {
@@ -70,7 +84,7 @@ function flyUp () {
         bee.layer.style.transform = bee.direction === 'right'? "rotate(-30deg)" : "scaleX(-1) rotate(-30deg)";
         bee.layer.style.bottom = beePositionY + 10 +"px";
     } else {
-        bounce();
+        bounce(false);
     }
 }
 
@@ -81,7 +95,7 @@ function flyDown () {
         bee.layer.style.transform = bee.direction === 'right'? "rotate(30deg)" : "scaleX(-1) rotate(30deg)";
         bee.layer.style.bottom = beePositionY - 10 +"px";
     } else {
-        bounce();
+        bounce(true);
 
     }
 }
@@ -100,6 +114,9 @@ function updatePosition() {
     if (keys.includes("ArrowDown")) {
         flyDown(bee.direction);
     }
+    if (flower.layer) {
+        flower.layer.style.backgroundPositionX = `${position[0] * ((layers.length-1) * speedMultiplier)}px`;
+    }
 
     //all but the first background layers move with increasing speed
     for (let i = 0; i < layers.length ; i++) {
@@ -107,6 +124,12 @@ function updatePosition() {
     }
 }
 
+function createFlower() {
+    const newFlower = document.createElement('div');
+    newFlower.setAttribute('class', 'flower');
+    flowerLayer.appendChild(newFlower);
+}
 
+createFlower();
 document.addEventListener('keydown', game);
 
