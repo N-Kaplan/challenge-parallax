@@ -1,6 +1,7 @@
-//todo: why doesn't rotation work any more?
-//global variables: grouped by function
 //todo: refactor!
+//todo:adjust bounce
+// todo: pick flowers
+
 let keys = [];
 const tic = 60;
 let position = [0, 0]; //x and y axis??
@@ -30,11 +31,16 @@ document.addEventListener("keyup", function (event) {
     }
 })
 
-//recursive function
+//recursive function, stops
 function game () {
     document.removeEventListener('keydown', game);
-    setTimeout(game, tic);
     updatePosition();
+    if (!keys.includes(' ')) {
+        setTimeout(game, tic);
+    }
+    else if (keys.length > 0) {
+        document.addEventListener('keydown', game);
+    }
 }
 
 function fly (direction) {
@@ -95,14 +101,12 @@ function updatePosition() {
         flyDown(bee.direction);
     }
 
-    if (keys.includes(" ")) {
-        //todo: pause?
-    }
-
     //all but the first background layers move with increasing speed
     for (let i = 0; i < layers.length ; i++) {
         layers[i].style.backgroundPositionX = `${position[0] * (i * speedMultiplier)}px`;
     }
 }
 
+
 document.addEventListener('keydown', game);
+
